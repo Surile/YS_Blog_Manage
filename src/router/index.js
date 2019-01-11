@@ -27,108 +27,71 @@ export const constantRouterMap = [
   { path: '/404', component: () => import('@/views/404'), hidden: true },
 
   {
+    path: '/personalCenter',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'PersonalCenter',
+      component: () => import('@/views/personalCenter/index'),
+      meta: { title: '账户设置', icon: 'example' }
+    }],
+    hidden: true
+  },
+  {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
-    name: 'Dashboard',
+    redirect: '/home',
+    name: 'Home',
     hidden: true,
     children: [{
-      path: 'dashboard',
-      component: () => import('@/views/dashboard/index')
+      path: 'home',
+      component: () => import('@/views/home/index')
     }]
   },
-
   {
-    path: '/example',
+    path: '/articleList',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'example' },
-    children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
-    ]
-  },
-
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
-      }
-    ]
-  },
-
-  {
-    path: '/nested',
-    component: Layout,
-    redirect: '/nested/menu1',
-    name: 'Nested',
+    name: '文章列表',
     meta: {
-      title: 'Nested',
-      icon: 'nested'
+      title: '文章列表',
+      icon: 'example'
     },
-    children: [
-      {
-        path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'Menu1',
-        meta: { title: 'Menu1' },
-        children: [
-          {
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'Menu1-1',
-            meta: { title: 'Menu1-1' }
-          },
-          {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'Menu1-2',
-            meta: { title: 'Menu1-2' },
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: { title: 'Menu1-2-1' }
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: { title: 'Menu1-2-2' }
-              }
-            ]
-          },
-          {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: { title: 'Menu1-3' }
-          }
-        ]
-      },
-      {
-        path: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        meta: { title: 'menu2' }
-      }
-    ]
+    children: [{
+      path: 'index',
+      name: 'ArticleItem',
+      component: () => import('@/views/articleList/index'),
+      meta: { title: '文章列表' }
+    }]
+  },
+  {
+    path: '/editorArticle',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'EditorArticle',
+      component: () => import('@/views/editorArticle/index'),
+      meta: { title: '文章编辑', icon: 'example' }
+    }]
+  },
+  {
+    path: '/draftBox',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'DraftBox',
+      component: () => import('@/views/draftBox/index'),
+      meta: { title: '草稿箱', icon: 'example' }
+    }]
+  },
+  {
+    path: '/messages',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'Messages',
+      component: () => import('@/views/messages/index'),
+      meta: { title: '留言板', icon: 'example' }
+    }]
   },
 
   { path: '*', redirect: '/404', hidden: true }
@@ -139,3 +102,5 @@ export default new Router({
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRouterMap
 })
+
+export const asyncRouterMap = []

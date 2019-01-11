@@ -11,14 +11,22 @@ router.beforeEach((to, from, next) => {
   if (getToken()) {
     if (to.path === '/login') {
       next({ path: '/' })
-      NProgress.done() // if current page is dashboard will not trigger	afterEach hook, so manually handle it
+      NProgress.done() // if current page is home will not triggerafterEach hook, so manually handle it
     } else {
       if (store.getters.roles.length === 0) {
         store.dispatch('GetInfo').then(res => { // 拉取用户信息
-          next()
+          if (to.path === '/articleList/index') {
+            console.log(1111)
+            store.dispatch('GeneratRouters').then(routers => {
+              router.addRoutes(routers)
+              next({ ...to, replace: true })
+            })
+          } else {
+            next()
+          }
         }).catch((err) => {
           store.dispatch('FedLogOut').then(() => {
-            Message.error(err || 'Verification failed, please login again')
+            Message.error(err || '验证失败，请重新登录！')
             next({ path: '/' })
           })
         })
