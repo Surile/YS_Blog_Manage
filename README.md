@@ -1,6 +1,6 @@
 # 个人博客-管理后台
 
-> 本项目技术栈基于Vue2.5 + Vue CLI 3 + Vuex + Axios + Typescript + Koa2 + MongoDB，其中组件参考Element-UI、iview等自己造轮子，纯为练手
+> 本项目技术栈基于Vue2.5 + Vue CLI 3 + Vuex + Axios + Koa2 + MongoDB，其中组件参考Element-UI、iview等自己造轮子，纯为练手
 
 ## Live demo
 快了...
