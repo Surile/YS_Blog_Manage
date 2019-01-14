@@ -2,50 +2,67 @@
  * @Author: yu.shuang
  * @Date: 2019-01-11 16:27:13
  * @Last Modified by: yu.shuang
- * @Last Modified time: 2019-01-11 18:01:15
+ * @Last Modified time: 2019-01-14 14:15:21
  */
 
 import {
   constantRouterMap
 } from '@/router'
+import Layout from '../../views/layout/Layout'
 // import { _getArticleRouters } from '@/api/router'
 
-function constructArticleListRouter(data) {
-  let articleListRouter
-  // let arr = [{
-  //   id: 1,
-  //   name: 'javaScript',
-  //   articleCount: 5
-  // }, {
-  //   id: 2,
-  //   name: 'HTML',
-  //   articleCount: 2
-  // }, {
-  //   id: 3,
-  //   name: 'CSS',
-  //   articleCount: 8
-  // }, {
-  //   id: 4,
-  //   name: 'Vue',
-  //   articleCount: 5
-  // }]
-  constantRouterMap.forEach(element => {
-    if (element.path === '/articleList') {
-      console.log(1)
-    }
+function constructArticleListRouter() {
+  const arr = [{
+    id: 1,
+    name: 'JavaScript',
+    articleCount: 5
+  }, {
+    id: 2,
+    name: 'HTML',
+    articleCount: 2
+  }, {
+    id: 3,
+    name: 'CSS',
+    articleCount: 8
+  }, {
+    id: 4,
+    name: 'Vue',
+    articleCount: 5
+  }]
+
+  const res = []
+
+  const obj = {
+    path: '/articleList',
+    component: Layout,
+    meta: {
+      title: '文章列表',
+      icon: 'example'
+    },
+    children: []
+  }
+  arr.forEach(item => {
+    obj.children.push({
+      path: item.name,
+      name: item.name,
+      component: () => import('@/views/articleList/index'),
+      meta: { title: `${item.name}（${item.articleCount}）` }
+    })
   })
-  return articleListRouter
+  res.push(obj)
+  return res
 }
 
 const routers = {
   state: {
-    routers: constantRouterMap,
-    addRouter: []
+    addRouters: [],
+    routers: constantRouterMap
   },
   mutations: {
     SET_ROUTERS: (state, routers) => {
-      state.addRouter = routers
+      state.addRouters = routers
       state.routers = constantRouterMap.concat(routers)
+      console.log('state.routers', state.routers)
     }
   },
   actions: {
@@ -53,7 +70,7 @@ const routers = {
       commit
     }, data) {
       return new Promise((resolve, reject) => {
-        commit('SET_ROUTERS', constructArticleListRouter(data))
+        commit('SET_ROUTERS', constructArticleListRouter())
         resolve()
       })
     }

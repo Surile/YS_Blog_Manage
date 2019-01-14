@@ -27,40 +27,17 @@ export const constantRouterMap = [
   { path: '/404', component: () => import('@/views/404'), hidden: true },
 
   {
-    path: '/personalCenter',
-    component: Layout,
-    children: [{
-      path: 'index',
-      name: 'PersonalCenter',
-      component: () => import('@/views/personalCenter/index'),
-      meta: { title: '账户设置', icon: 'example' }
-    }],
-    hidden: true
-  },
-  {
     path: '/',
     component: Layout,
     redirect: '/home',
     name: 'Home',
-    hidden: true,
     children: [{
       path: 'home',
-      component: () => import('@/views/home/index')
-    }]
-  },
-  {
-    path: '/articleList',
-    component: Layout,
-    name: '文章列表',
-    meta: {
-      title: '文章列表',
-      icon: 'example'
-    },
-    children: [{
-      path: 'index',
-      name: 'ArticleItem',
-      component: () => import('@/views/articleList/index'),
-      meta: { title: '文章列表' }
+      component: () => import('@/views/home/index'),
+      meta: {
+        title: '首页',
+        icon: 'example'
+      }
     }]
   },
   {
@@ -93,6 +70,17 @@ export const constantRouterMap = [
       meta: { title: '留言板', icon: 'example' }
     }]
   },
+  {
+    path: '/personalCenter',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'PersonalCenter',
+      component: () => import('@/views/personalCenter/index'),
+      meta: { title: '账户设置', icon: 'example' }
+    }],
+    hidden: true
+  },
 
   { path: '*', redirect: '/404', hidden: true }
 ]
@@ -102,5 +90,3 @@ export default new Router({
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRouterMap
 })
-
-export const asyncRouterMap = []

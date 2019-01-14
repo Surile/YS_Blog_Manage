@@ -8,6 +8,7 @@ import { getToken } from '@/utils/auth' // 验权
 const whiteList = ['/login'] // 不重定向白名单
 router.beforeEach((to, from, next) => {
   NProgress.start()
+  console.log(to)
   if (getToken()) {
     if (to.path === '/login') {
       next({ path: '/' })
@@ -15,15 +16,11 @@ router.beforeEach((to, from, next) => {
     } else {
       if (store.getters.roles.length === 0) {
         store.dispatch('GetInfo').then(res => { // 拉取用户信息
-          if (to.path === '/articleList/index') {
-            console.log(1111)
-            store.dispatch('GeneratRouters').then(routers => {
-              router.addRoutes(routers)
-              next({ ...to, replace: true })
-            })
-          } else {
-            next()
-          }
+          store.dispatch('GeneratRouters').then(() => {
+            console.log(store.getters.addRouters)
+            router.addRoutes(store.getters.addRouters)
+            next({ ...to, replace: true })
+          })
         }).catch((err) => {
           store.dispatch('FedLogOut').then(() => {
             Message.error(err || '验证失败，请重新登录！')
@@ -47,3 +44,4 @@ router.beforeEach((to, from, next) => {
 router.afterEach(() => {
   NProgress.done() // 结束Progress
 })
+
