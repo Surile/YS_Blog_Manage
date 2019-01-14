@@ -8,17 +8,22 @@ import { getToken } from '@/utils/auth' // 验权
 const whiteList = ['/login'] // 不重定向白名单
 router.beforeEach((to, from, next) => {
   NProgress.start()
+  console.log(to)
   if (getToken()) {
     if (to.path === '/login') {
       next({ path: '/' })
-      NProgress.done() // if current page is dashboard will not trigger	afterEach hook, so manually handle it
+      NProgress.done() // if current page is home will not triggerafterEach hook, so manually handle it
     } else {
       if (store.getters.roles.length === 0) {
         store.dispatch('GetInfo').then(res => { // 拉取用户信息
-          next()
+          store.dispatch('GeneratRouters').then(() => {
+            console.log(store.getters.addRouters)
+            router.addRoutes(store.getters.addRouters)
+            next({ ...to, replace: true })
+          })
         }).catch((err) => {
           store.dispatch('FedLogOut').then(() => {
-            Message.error(err || 'Verification failed, please login again')
+            Message.error(err || '验证失败，请重新登录！')
             next({ path: '/' })
           })
         })
@@ -39,3 +44,4 @@ router.beforeEach((to, from, next) => {
 router.afterEach(() => {
   NProgress.done() // 结束Progress
 })
+

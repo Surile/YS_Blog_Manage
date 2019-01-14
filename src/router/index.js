@@ -29,106 +29,57 @@ export const constantRouterMap = [
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
-    name: 'Dashboard',
-    hidden: true,
+    redirect: '/home',
+    name: 'Home',
     children: [{
-      path: 'dashboard',
-      component: () => import('@/views/dashboard/index')
+      path: 'home',
+      component: () => import('@/views/home/index'),
+      meta: {
+        title: '首页',
+        icon: 'example'
+      }
     }]
   },
-
   {
-    path: '/example',
+    path: '/editorArticle',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'example' },
-    children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
-    ]
+    children: [{
+      path: 'index',
+      name: 'EditorArticle',
+      component: () => import('@/views/editorArticle/index'),
+      meta: { title: '文章编辑', icon: 'example' }
+    }]
   },
-
   {
-    path: '/form',
+    path: '/draftBox',
     component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
-      }
-    ]
+    children: [{
+      path: 'index',
+      name: 'DraftBox',
+      component: () => import('@/views/draftBox/index'),
+      meta: { title: '草稿箱', icon: 'example' }
+    }]
   },
-
   {
-    path: '/nested',
+    path: '/messages',
     component: Layout,
-    redirect: '/nested/menu1',
-    name: 'Nested',
-    meta: {
-      title: 'Nested',
-      icon: 'nested'
-    },
-    children: [
-      {
-        path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'Menu1',
-        meta: { title: 'Menu1' },
-        children: [
-          {
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'Menu1-1',
-            meta: { title: 'Menu1-1' }
-          },
-          {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'Menu1-2',
-            meta: { title: 'Menu1-2' },
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: { title: 'Menu1-2-1' }
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: { title: 'Menu1-2-2' }
-              }
-            ]
-          },
-          {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: { title: 'Menu1-3' }
-          }
-        ]
-      },
-      {
-        path: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        meta: { title: 'menu2' }
-      }
-    ]
+    children: [{
+      path: 'index',
+      name: 'Messages',
+      component: () => import('@/views/messages/index'),
+      meta: { title: '留言板', icon: 'example' }
+    }]
+  },
+  {
+    path: '/personalCenter',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'PersonalCenter',
+      component: () => import('@/views/personalCenter/index'),
+      meta: { title: '账户设置', icon: 'example' }
+    }],
+    hidden: true
   },
 
   { path: '*', redirect: '/404', hidden: true }
