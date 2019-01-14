@@ -4,11 +4,12 @@
 
 ## Live demo
 快了...
+
+
 <!-- [个人博客](https://armour.github.io/vue-typescript-admin-template) -->
 
 ## 目标功能
 
-```
 - 登录 / 注销
 
 - 全局功能
@@ -53,7 +54,6 @@
 - 用户管理（留言、评论、赞需giuhub账户登录）
   - [ ] 新增、查询
 
-```
 
 ## Screenshots
 正在开发中...
