@@ -61,43 +61,43 @@
 ## Project setup
 
 ```bash
-yarn install
+npm install
 ```
 
 ### Compiles and hot-reloads for development
 
 ```bash
-yarn serve
+npm serve
 ```
 
 ### Compiles and minifies for production
 
 ```bash
-yarn build
+npm build
 ```
 
 ### Lints and fixes files
 
 ```bash
-yarn lint
+npm lint
 ```
 
 <!-- ### Run your unit tests
 
 ```bash
-yarn test:unit
+npm test:unit
 ```
 
 ### Run your end-to-end tests
 
 ```bash
-yarn test:e2e
+npm test:e2e
 ```
 
 ### Run all tests
 
 ```bash
-yarn test
+npm test
 ``` -->
 
 ## Browsers support
