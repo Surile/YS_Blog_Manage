@@ -8,7 +8,7 @@ $hd: 2; // 基本单位
 /* The Color of O2Team Brand */
 $color-brand: #6190E8;
 $color-brand-light: #78A4F4;
-$color-brand-dark: #346FC2;
+$color-brand-dark: #409EFF;
 
 /* Color */
 $color-success: #13CE66;
@@ -55,7 +55,7 @@ $color-bg-lighter: tint($color-bg-light, 50%);
 $color-bg-grey: #F7F7F7;
 
 /* 边框颜色 */
-$color-border-base: #C5D9E8;
+$color-border-base: #eaeaea;
 $color-border-split: tint($color-border-base, 20%); // 分割线
 $color-border-light: tint($color-border-base, 30%);
 $color-border-lighter: tint($color-border-base, 50%);

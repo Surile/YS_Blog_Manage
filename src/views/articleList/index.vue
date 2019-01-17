@@ -64,7 +64,6 @@
 
 <script>
 import waves from '@/directive/waves' // Waves directive
-// import { parseTime } from '@/utils'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
 export default {
