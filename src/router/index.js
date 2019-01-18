@@ -80,9 +80,7 @@ export const constantRouterMap = [
       meta: { title: '账户设置', icon: 'example' }
     }],
     hidden: true
-  },
-
-  { path: '*', redirect: '/404', hidden: true }
+  }
 ]
 
 export default new Router({

@@ -50,6 +50,7 @@ function constructArticleListRouter() {
     })
   })
   res.push(obj)
+  res.push({ path: '*', redirect: '/404', hidden: true })
   return res
 }
 
