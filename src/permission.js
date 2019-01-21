@@ -13,10 +13,9 @@ router.beforeEach((to, from, next) => {
       next({ path: '/' })
       NProgress.done() // if current page is home will not triggerafterEach hook, so manually handle it
     } else {
-      if (store.getters.roles.length === 0) {
+      if (!store.getters.userId) {
         store.dispatch('GetInfo').then(res => { // 拉取用户信息
           store.dispatch('GeneratRouters').then(() => {
-            console.log(store.getters.addRouters)
             router.addRoutes(store.getters.addRouters)
             next({ ...to, replace: true })
           })

@@ -11,11 +11,12 @@ export function login(username, password) {
   })
 }
 
-export function getInfo(token) {
+export function getInfo(id) {
+  console.log('api', id)
   return request({
-    url: '/admin/info',
+    url: '/admin/getAdmin',
     method: 'get',
-    params: { token }
+    data: { id }
   })
 }
 
