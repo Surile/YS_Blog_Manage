@@ -19,6 +19,17 @@ export function getInfo(token) {
   })
 }
 
+export function signUp(username, password) {
+  return request({
+    url: '/user/signUp',
+    method: 'post',
+    data: {
+      username,
+      password
+    }
+  })
+}
+
 export function logout() {
   return request({
     url: '/user/logout',

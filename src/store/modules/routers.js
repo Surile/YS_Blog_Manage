@@ -1,8 +1,8 @@
 /*
  * @Author: yu.shuang
  * @Date: 2019-01-11 16:27:13
- * @Last Modified by: yu.shuang
- * @Last Modified time: 2019-01-14 14:15:21
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2019-01-21 11:36:58
  */
 
 import {
@@ -63,7 +63,6 @@ const routers = {
     SET_ROUTERS: (state, routers) => {
       state.addRouters = routers
       state.routers = constantRouterMap.concat(routers)
-      console.log('state.routers', state.routers)
     }
   },
   actions: {
