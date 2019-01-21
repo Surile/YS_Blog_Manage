@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
-      <h3 class="title">博客管理后台</h3>
+      <h3 class="title"></h3>
       <el-form-item prop="username">
         <span class="svg-container">
           <svg-icon icon-class="user" />
@@ -27,10 +27,12 @@
         <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLogin">
           登录
         </el-button>
+      </el-form-item>
+      <!-- <el-form-item>
         <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleSignUp">
           注册
         </el-button>
-      </el-form-item>
+      </el-form-item> -->
       <div class="tips">
         <span style="margin-right:20px;">username: admin</span>
         <span> password: admin</span>
@@ -40,6 +42,7 @@
 </template>
 
 <script>
+import CryptoJS from 'crypto-js'
 import { isvalidUsername } from '@/utils/validate'
 
 export default {
@@ -92,8 +95,12 @@ export default {
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
+          let params = {
+            username: this.loginForm.username,
+            password: CryptoJS.MD5(this.loginForm.password).toString()
+          }
           this.loading = true
-          this.$store.dispatch('Login', this.loginForm).then(() => {
+          this.$store.dispatch('Login', params).then(() => {
             this.loading = false
             this.$router.push({ path: this.redirect || '/' })
           }).catch(() => {
@@ -108,10 +115,14 @@ export default {
     handleSignUp() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
+          let params = {
+            username: this.loginForm.username,
+            password: CryptoJS.MD5(this.loginForm.password).toString()
+          }
           this.loading = true
-          this.$store.dispatch('SignUp', this.loginForm).then(() => {
+          this.$store.dispatch('SignUp', params).then(() => {
             this.loading = false
-            this.$router.push({ path: this.redirect || '/' })
+            this.$router.push({ path: '/login' })
           }).catch(() => {
             this.loading = false
           })
