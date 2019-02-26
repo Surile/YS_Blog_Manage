@@ -43,7 +43,6 @@
 
 <script>
 import CryptoJS from 'crypto-js'
-import { isvalidUsername } from '@/utils/validate'
 
 export default {
   name: 'Login',
@@ -80,7 +79,7 @@ export default {
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          let params = {
+          const params = {
             username: this.loginForm.username,
             password: CryptoJS.MD5(this.loginForm.password).toString()
           }
@@ -90,26 +89,6 @@ export default {
             console.log(this.$store.getters)
             this.loading = false
             this.$router.push('/')
-          }).catch(() => {
-            this.loading = false
-          })
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
-    },
-    handleSignUp() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          let params = {
-            username: this.loginForm.username,
-            password: CryptoJS.MD5(this.loginForm.password).toString()
-          }
-          this.loading = true
-          this.$store.dispatch('SignUp', params).then(() => {
-            this.loading = false
-            this.$router.push({ path: '/login' })
           }).catch(() => {
             this.loading = false
           })
