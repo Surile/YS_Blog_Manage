@@ -8,13 +8,14 @@ import { getToken } from '@/utils/auth' // 验权
 const whiteList = ['/login'] // 不重定向白名单
 router.beforeEach((to, from, next) => {
   NProgress.start()
+  console.log('to', to)
   if (getToken()) {
     if (to.path === '/login') {
       next({ path: '/' })
       NProgress.done() // if current page is home will not triggerafterEach hook, so manually handle it
     } else {
-      if (!store.getters.userId) {
-        store.dispatch('GetInfo').then(res => { // 拉取用户信息
+      if (!store.getters.roles) {
+        store.dispatch('GetUserInfo').then(res => { // 拉取用户信息
           store.dispatch('GeneratRouters').then(() => {
             router.addRoutes(store.getters.addRouters)
             next({ ...to, replace: true })

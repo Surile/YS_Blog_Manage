@@ -1,7 +1,13 @@
 import axios from 'axios'
-import { Message, MessageBox } from 'element-ui'
+import qs from 'qs'
+import {
+  Message,
+  MessageBox
+} from 'element-ui'
 import store from '../store'
-import { getToken } from '@/utils/auth'
+import {
+  getToken
+} from '@/utils/auth'
 
 // 创建axios实例
 const service = axios.create({
@@ -10,43 +16,44 @@ const service = axios.create({
 })
 
 // request拦截器
-// service.interceptors.request.use(
-//   config => {
-//     if (store.getters.token) {
-//       config.headers['Token'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
-//     }
-//     return config
-//   },
-//   error => {
-//     // Do something with request error
-//     console.log(error) // for debug
-//     Promise.reject(error)
-//   }
-// )
+service.interceptors.request.use(
+  config => {
+    if(config.method === 'post'){
+      config.data = qs.stringify(config.data);
+    }
+    if (store.getters.token) {
+      config.headers['Authorization'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+    }
+    return config
+  },
+  error => {
+    // Do something with request error
+    console.log(error) // for debug
+    Promise.reject(error)
+  }
+)
 
 // response 拦截器
 service.interceptors.response.use(
-  response => {
-    console.log(response)
+  res => {
+    console.log(res)
     /**
-     * code为非200是抛错 可结合自己业务进行修改
+     * status为非200是抛错 可结合自己业务进行修改
      */
-    const res = response.data
-    if (res.code !== 200) {
+    if (res.status !== 200) {
       Message({
-        message: res.message,
+        message: res.data.message,
         type: 'error',
-        duration: 5 * 1000
+        duration: 3 * 1000
       })
 
       // 50008:非法的token; 50012:其他客户端登录了;  50014:Token 过期了;
-      if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
+      if (res.status === 401) {
         MessageBox.confirm(
-          '你已被登出，可以取消继续留在该页面，或者重新登录',
-          '确定登出',
-          {
+          '身份验证未通过，请重新登录',
+          '确定登出', {
             confirmButtonText: '重新登录',
-            cancelButtonText: '取消',
+            showCancelButton: false,
             type: 'warning'
           }
         ).then(() => {
@@ -57,12 +64,21 @@ service.interceptors.response.use(
       }
       return Promise.reject('error')
     } else {
-      Message({
-        message: res.message,
-        type: 'success',
-        duration: 3 * 1000
-      })
-      return response.data
+      if (res.data.success) {
+        Message({
+          message: res.data.message,
+          type: 'success',
+          duration: 3 * 1000
+        })
+        return res.data.data
+      } else {
+        Message({
+          message: res.data.message,
+          type: 'error',
+          duration: 3 * 1000
+        })
+        return Promise.reject('error')
+      }
     }
   },
   error => {

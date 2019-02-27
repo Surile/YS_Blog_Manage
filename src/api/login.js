@@ -8,23 +8,11 @@ export function login(data) {
   })
 }
 
-export function signUp(username, password) {
-  return request({
-    url: '/signUp',
-    method: 'post',
-    data: {
-      username,
-      password
-    }
-  })
-}
-
-export function getInfo(id) {
-  console.log('api', id)
+export function getUserInfo(id) {
   return request({
     url: '/getAdmin',
     method: 'get',
-    data: { id }
+    params: { id: id }
   })
 }
 

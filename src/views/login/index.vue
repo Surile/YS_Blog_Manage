@@ -28,11 +28,6 @@
           登录
         </el-button>
       </el-form-item>
-      <!-- <el-form-item>
-        <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleSignUp">
-          注册
-        </el-button>
-      </el-form-item> -->
       <div class="tips">
         <span style="margin-right:20px;">username: admin</span>
         <span> password: admin</span>
@@ -85,8 +80,6 @@ export default {
           }
           this.loading = true
           this.$store.dispatch('Login', params).then(() => {
-            console.log(this.$store.getters.userId)
-            console.log(this.$store.getters)
             this.loading = false
             this.$router.push('/')
           }).catch(() => {

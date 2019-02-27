@@ -1,4 +1,4 @@
-import { login, logout, getInfo, signUp } from '@/api/login'
+import { login, logout, getUserInfo } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const user = {
@@ -6,7 +6,8 @@ const user = {
     token: getToken(),
     name: '',
     avatar: '',
-    userId: ''
+    userId: '',
+    roles: ''
   },
 
   mutations: {
@@ -21,6 +22,9 @@ const user = {
     },
     SET_AVATAR: (state, avatar) => {
       state.avatar = avatar
+    },
+    SET_ROLES: (state, roles) => {
+      state.roles = roles
     }
   },
 
@@ -29,10 +33,9 @@ const user = {
     Login({ commit }, userInfo) {
       return new Promise((resolve, reject) => {
         login(userInfo).then(response => {
-          console.log('response', response)
-          const data = response.data
-          setToken(data._id)
-          commit('SET_USERID', data._id)
+          setToken(response.token)
+          commit('SET_USERID', response.id)
+          commit('SET_TOKEN', response.token)
           resolve()
         }).catch(error => {
           reject(error)
@@ -41,12 +44,11 @@ const user = {
     },
 
     // 获取用户信息
-    GetInfo({ commit, state }) {
+    GetUserInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
-        console.log('state.userId', state.userId)
-        getInfo(state.userId).then(response => {
-          const data = response.data
-          commit('SET_NAME', data.username)
+        getUserInfo(state.userId).then(response => {
+          commit('SET_NAME', response.username)
+          commit('SET_ROLES', response.role)
           resolve(response)
         }).catch(error => {
           reject(error)
