@@ -5,7 +5,7 @@ const user = {
   state: {
     token: getToken(),
     name: '',
-    avatar: '',
+    avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
     userId: '',
     roles: ''
   },
@@ -46,7 +46,7 @@ const user = {
     // 获取用户信息
     GetUserInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
-        getUserInfo(state.userId).then(response => {
+        getUserInfo(state.token).then(response => {
           commit('SET_NAME', response.username)
           commit('SET_ROLES', response.role)
           resolve(response)

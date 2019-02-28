@@ -3,6 +3,7 @@
 @import './transition.scss';
 @import './element-ui.scss';
 @import './sidebar.scss';
+@import './theme/default.scss';
 
 body {
   height: 100%;
@@ -75,4 +76,11 @@ a:hover {
 
 .app-container {
   padding: 20px;
+}
+
+.space-s {
+  margin-left: $spacing-h-sm;
+}
+.space-l {
+  margin-left: $spacing-h-lg;
 }

@@ -2,14 +2,13 @@
  * @Author: yu.shuang
  * @Date: 2019-01-11 16:27:13
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-01-21 11:36:58
+ * @Last Modified time: 2019-02-28 10:38:42
  */
 
 import {
   constantRouterMap
 } from '@/router'
 import Layout from '../../views/layout/Layout'
-// import { _getArticleRouters } from '@/api/router'
 
 function constructArticleListRouter() {
   const arr = [{
@@ -43,8 +42,7 @@ function constructArticleListRouter() {
   }
   arr.forEach(item => {
     obj.children.push({
-      path: item.name,
-      name: item.name,
+      path: `${item.name}`,
       component: () => import('@/views/articleList/index'),
       meta: { title: `${item.name}（${item.articleCount}）` }
     })

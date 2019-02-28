@@ -91,6 +91,8 @@ export default {
       if (this.isExternalLink(routePath)) {
         return routePath
       }
+
+      console.log('路径', this.basePath, routePath, path.resolve(this.basePath, routePath))
       return path.resolve(this.basePath, routePath)
     },
     isExternalLink(routePath) {

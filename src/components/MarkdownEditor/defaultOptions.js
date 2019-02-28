@@ -4,8 +4,8 @@ export default {
   previewStyle: 'vertical',
   useCommandShortcut: true,
   useDefaultHTMLSanitizer: true,
-  usageStatistics: false,
-  hideModeSwitch: false,
+  usageStatistics: false, // 隐藏模式选择
+  hideModeSwitch: true,
   toolbarItems: [
     'heading',
     'bold',
