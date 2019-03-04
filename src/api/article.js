@@ -1,8 +1,8 @@
 import request from '@/utils/request'
 
-export function fetchList(query) {
+export function fetchDraftList(query) {
   return request({
-    url: '/article/list',
+    url: '/article/draft',
     method: 'get',
     params: query
   })
