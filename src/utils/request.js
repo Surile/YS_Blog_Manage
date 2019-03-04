@@ -67,6 +67,20 @@ service.interceptors.response.use(
           location.reload() // 为了重新实例化vue-router对象 避免bug
         })
       })
+    } else if (code === 404) {
+      Message({
+        message: '请求路径错误',
+        type: 'error',
+        duration: 3 * 1000
+      })
+      return Promise.reject('error')
+    } else if (code === 504) {
+      Message({
+        message: '请求超时',
+        type: 'error',
+        duration: 3 * 1000
+      })
+      return Promise.reject('error')
     }
   }
 )

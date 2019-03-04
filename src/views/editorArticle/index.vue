@@ -9,18 +9,10 @@
         <MDinput v-model="postForm.title" :maxlength="100" name="name" required>标题</MDinput>
       </el-form-item>
       <div class="postInfo-container">
-        <el-form-item label-width="55px" label="作者:" class="postInfo-container-item">
+        <el-form-item label-width="55px" label="作者:" class="postInfo-container-item" prop="author">
           <el-input v-model="postForm.author" placeholder="请输入用户"/>
         </el-form-item>
-        <el-form-item label-width="80px" label="发布时间:" class="postInfo-container-item">
-          <el-date-picker
-            v-model="postForm.create_time"
-            type="datetime"
-            format="yyyy-MM-dd HH:mm:ss"
-            placeholder="选择日期时间"
-          />
-        </el-form-item>
-        <el-form-item label-width="55px" label="标签:" class="postInfo-container-item">
+        <el-form-item label-width="55px" label="标签:" class="postInfo-container-item" prop="label">
           <el-select
             v-model="postForm.tag_ids"
             :loading="tagLoading"
@@ -32,17 +24,12 @@
             placeholder="请选择文章标签"
             @visible-change="loadTags"
           >
-            <el-option
-              v-for="item in tagList"
-              :key="item.id"
-              :label="item.label"
-              :value="item"
-            />
+            <el-option v-for="item in tagList" :key="item.id" :label="item.label" :value="item"/>
           </el-select>
         </el-form-item>
       </div>
 
-      <el-form-item style="margin-bottom: 40px;" label-width="45px" label="摘要:">
+      <el-form-item style="margin-bottom: 40px;" label-width="55px" label="摘要:" prop="abstract">
         <el-input
           :rows="1"
           v-model="postForm.abstract"
@@ -51,10 +38,10 @@
           autosize
           placeholder="请输入摘要内容"
         />
-        <span v-show="contentShortLength" class="word-counter">{{ contentShortLength }}字</span>
+        <span v-show="abstractLength" class="word-counter">{{ abstractLength }}字</span>
       </el-form-item>
 
-      <el-form-item prop="content" style="margin-bottom: 30px;">
+      <el-form-item style="margin-bottom: 30px;">
         <markdown-editor ref="markdownDom" v-model="postForm.content" height="50vh"/>
       </el-form-item>
     </el-form>
@@ -71,7 +58,6 @@ const defaultForm = {
   title: '', // 文章题目
   content: '', // 文章内容
   abstract: '', // 文章摘要
-  create_time: new Date().getTime(), // 前台展示时间
   tag_ids: [],
   status: 'published'
 }
@@ -80,29 +66,20 @@ export default {
   name: 'EditorArticle',
   components: { MarkdownEditor, MDinput },
   data() {
-    const validateRequire = (rule, value, callback) => {
-      if (value === '') {
-        this.$message({
-          message: rule.field + '为必填项',
-          type: 'error'
-        })
-        callback(new Error(rule.field + '为必填项'))
-      } else {
-        callback()
-      }
-    }
     return {
       postForm: Object.assign({}, defaultForm),
       rules: {
-        title: [{ validator: validateRequire }],
-        content: [{ validator: validateRequire }]
+        title: [{ required: true, message: '标题不能为空', trigger: 'blur' }],
+        author: [{ required: true, message: '作者不能为空', trigger: 'blur' }],
+        abstract: [{ required: true, message: '摘要不能为空', trigger: 'blur' }],
+        label: [{ required: true, message: '标签不能为空', trigger: 'blur' }]
       },
       tagLoading: false,
       tagList: []
     }
   },
   computed: {
-    contentShortLength() {
+    abstractLength() {
       return this.postForm.abstract.length
     }
   },
@@ -112,31 +89,8 @@ export default {
         this.tagList = res
       })
     },
-    draftForm() {
-      if (
-        this.postForm.content.length === 0 ||
-        this.postForm.title.length === 0 ||
-        this.postForm.tag_ids.length === 0
-      ) {
-        this.$message({
-          message: '请填写必要的选项',
-          type: 'warning'
-        })
-        return
-      }
-      console.log(this.postForm)
-      this.$message({
-        message: '保存成功',
-        type: 'success',
-        showClose: true,
-        duration: 1000
-      })
-    },
-    submitForm() {
-      const params = this.postForm
-      params.create_time = new Date(params.create_time).getTime()
-      console.log(params)
-      params.tag_ids = params.tag_ids.map(item => {
+    handleTag(tags) {
+      const ids = tags.map(item => {
         if (typeof item === 'string') {
           return {
             id: '',
@@ -146,18 +100,40 @@ export default {
           return item
         }
       })
+      return ids
+    },
+    draftForm() {
+      this.postForm.status = 'draft'
+      this.postForm.tag_ids = this.handleTag(this.postForm.tag_ids)
       this.$refs.postForm.validate(valid => {
         if (valid) {
-          createArticle(params).then(res => {
+          createArticle(this.postForm).then(res => {
             this.$notify({
-              title: '成功',
-              message: '发布文章成功',
+              title: '保存成功',
+              message: '文章已成功保存至草稿箱',
               type: 'success',
               duration: 2000
             })
           })
         } else {
-          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    submitForm() {
+      this.postForm.status = 'published'
+      this.postForm.tag_ids = this.handleTag(this.postForm.tag_ids)
+      this.$refs.postForm.validate(valid => {
+        if (valid) {
+          createArticle(this.postForm).then(res => {
+            this.$notify({
+              title: '文章发布成功',
+              message: '文章发布成功',
+              type: 'success',
+              duration: 2000
+            })
+          })
+        } else {
           return false
         }
       })
