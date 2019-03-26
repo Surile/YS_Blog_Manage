@@ -1,13 +1,6 @@
 import request from '@/utils/request'
 
-export function fetchDraftList(query) {
-  return request({
-    url: '/article/draft',
-    method: 'get',
-    params: query
-  })
-}
-
+// 获取文章
 export function fetchArticle(id) {
   return request({
     url: '/article/detail',
@@ -16,6 +9,7 @@ export function fetchArticle(id) {
   })
 }
 
+// 创建文章
 export function createArticle(data) {
   return request({
     url: '/article/create',
@@ -24,6 +18,7 @@ export function createArticle(data) {
   })
 }
 
+// 更新文章
 export function updateArticle(data) {
   return request({
     url: '/article/update',

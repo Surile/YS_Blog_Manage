@@ -12,7 +12,7 @@
         <el-form-item label-width="55px" label="作者:" class="postInfo-container-item" prop="author">
           <el-input v-model="postForm.author" placeholder="请输入用户"/>
         </el-form-item>
-        <el-form-item label-width="55px" label="标签:" class="postInfo-container-item" prop="label">
+        <el-form-item label-width="55px" label="标签:" class="postInfo-container-item">
           <el-select
             v-model="postForm.tag_ids"
             :loading="tagLoading"

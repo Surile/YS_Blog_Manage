@@ -28,7 +28,7 @@
           <router-link :to="'/example/edit/'+scope.row.id">
             <el-button type="primary" size="small" icon="el-icon-edit">编辑</el-button>
           </router-link>
-          <el-button type="primary" size="small" icon="el-icon-edit">删除</el-button>
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="delData(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { fetchDraftList } from '@/api/article'
+import { fetchDraftList, delDraft } from '@/api/draft'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
 export default {
@@ -81,6 +81,11 @@ export default {
     handleCurrentChange(val) {
       this.listQuery.page = val
       this.getList()
+    },
+    delData(row) {
+      delDraft({ id: row.id }).then(res => {
+
+      })
     }
   }
 }
