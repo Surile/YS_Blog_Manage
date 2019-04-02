@@ -26,7 +26,7 @@
       <el-table-column align="center" label="操作" width="200">
         <template slot-scope="scope">
           <router-link :to="'/example/edit/'+scope.row.id">
-            <el-button type="primary" size="small" icon="el-icon-edit">编辑</el-button>
+            <el-button type="primary" size="small" icon="el-icon-edit" @click="editData(scope.row)">编辑</el-button>
           </router-link>
           <el-button type="primary" size="small" icon="el-icon-edit" @click="delData(scope.row)">删除</el-button>
         </template>
@@ -84,7 +84,9 @@ export default {
     },
     delData(row) {
       delDraft({ id: row.id }).then(res => {
-
+        this.$message.success('删除成功！')
+        const index = this.list.indexOf(row)
+        this.list.splice(index, 1)
       })
     }
   }

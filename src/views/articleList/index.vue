@@ -65,6 +65,7 @@
 <script>
 import waves from '@/directive/waves' // Waves directive
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+import { fetchArticleByTagId } from '@/api/article'
 
 export default {
   name: 'ComplexTable',
@@ -91,34 +92,22 @@ export default {
       }
     }
   },
+  computed: {
+    tagId() {
+      return this.$route.meta.tagId
+    }
+  },
   created() {
     this.getList()
   },
   methods: {
     getList() {
-      this.list = [
-        {
-          author: '大喻喻',
-          id: 1,
-          pageviews: 2524,
-          status: 'draft',
-          timestamp: 146459012866,
-          title: '基于Koa2 + Vue SSR渲染的个人博客网站',
-          abstract:
-            '后台管理技术栈基于Vue2.5 + Vue CLI 3 + Element-UI + Vuex + Axios + Koa2 + MongoDB'
-        }
-      ]
-      this.total = 1
-      // this.listLoading = true
-      // fetchList(this.listQuery).then(response => {
-      //   this.list = response.data.items
-      //   this.total = response.data.total
-
-      //   // Just to simulate the time of the request
-      //   setTimeout(() => {
-      //     this.listLoading = false
-      //   }, 1.5 * 1000)
-      // })
+      this.listLoading = true
+      fetchArticleByTagId({ tagId: this.tagId }).then(res => {
+        this.listLoading = false
+        this.list = res
+        this.total = res.length
+      })
     }
   }
 }

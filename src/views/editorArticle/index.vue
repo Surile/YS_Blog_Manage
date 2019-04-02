@@ -14,7 +14,7 @@
         </el-form-item>
         <el-form-item label-width="55px" label="标签:" class="postInfo-container-item">
           <el-select
-            v-model="postForm.tag_ids"
+            v-model="postForm.tagIds"
             :loading="tagLoading"
             value-key="id"
             multiple
@@ -58,7 +58,7 @@ const defaultForm = {
   title: '', // 文章题目
   content: '', // 文章内容
   abstract: '', // 文章摘要
-  tag_ids: [],
+  tagIds: [],
   status: 'published'
 }
 
@@ -104,16 +104,11 @@ export default {
     },
     draftForm() {
       this.postForm.status = 'draft'
-      this.postForm.tag_ids = this.handleTag(this.postForm.tag_ids)
+      this.postForm.tagIds = this.handleTag(this.postForm.tagIds)
       this.$refs.postForm.validate(valid => {
         if (valid) {
           createArticle(this.postForm).then(res => {
-            this.$notify({
-              title: '保存成功',
-              message: '文章已成功保存至草稿箱',
-              type: 'success',
-              duration: 2000
-            })
+            this.$message.success('成功保存文章至草稿箱！')
           })
         } else {
           return false
@@ -122,16 +117,11 @@ export default {
     },
     submitForm() {
       this.postForm.status = 'published'
-      this.postForm.tag_ids = this.handleTag(this.postForm.tag_ids)
+      this.postForm.tagIds = this.handleTag(this.postForm.tagIds)
       this.$refs.postForm.validate(valid => {
         if (valid) {
           createArticle(this.postForm).then(res => {
-            this.$notify({
-              title: '文章发布成功',
-              message: '文章发布成功',
-              type: 'success',
-              duration: 2000
-            })
+            this.$message.success('发布文章成功！')
           })
         } else {
           return false

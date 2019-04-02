@@ -26,3 +26,13 @@ export function updateArticle(data) {
     data
   })
 }
+
+// 根据tagId获取文章
+export function fetchArticleByTagId(tagId) {
+  console.log('tagId', tagId)
+  return request({
+    url: '/article/getByTagId',
+    method: 'get',
+    params: tagId
+  })
+}
